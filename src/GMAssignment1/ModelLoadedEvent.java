@@ -8,20 +8,20 @@ import javax.swing.*;
  * Created by admin on 23/5/15.
  */
 public class ModelLoadedEvent {
-    private JComponent source;
+    private Object source;
 
-    private PgJvxSrc[] model;
+    private PgJvxSrc[] models;
 
-    public ModelLoadedEvent(JComponent source, PgJvxSrc[] model) {
+    public ModelLoadedEvent(Object source, PgJvxSrc[] models) {
         this.source = source;
-        this.model = model;
+        this.models = models;
     }
 
-    public PgJvxSrc[] getModel() {
-        return model;
+    public PgJvxSrc[] getModels() {
+        return models;
     }
 
-    public JComponent getSource() {
+    public Object getSource() {
         return source;
     }
 }
