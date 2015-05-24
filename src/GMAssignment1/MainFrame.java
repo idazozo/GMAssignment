@@ -46,7 +46,7 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         buttonPanel.add(loadFileButton);
 
         add(buttonPanel, BorderLayout.NORTH);
-        
+
         // setup display
         //viewer = new PvViewer(null, this);
         //add((Component)viewer.getDisplay(), BorderLayout.CENTER);
@@ -122,6 +122,17 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         //smallestRegularityIndex.get(); // the value, if it's present. Otherwise throws null pointer
         //smallestRegularityIndex.get().getKey(); // the index in triangles if it exists. use triangles.get(i)
 
+        Map<Integer, Integer> valences = IntStream.rangeClosed(0, model.getVertices().length)
+                .mapToObj(us -> {
+                    return new HashMap.SimpleImmutableEntry<Integer, Integer>(
+                            us,
+                            model.getNeighbours()[us].getSize());
+                })
+        .collect(Collectors.toMap(
+                Map.Entry::getKey,
+                Map.Entry::getValue));
+
+        System.out.println(valences);
     }
 
     public static double shapeRegularity(PdVector a, PdVector b, PdVector c){
@@ -130,9 +141,9 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         double distBC = b.dist(c);
 
         double p = perimeter(a, b, c) / 2;
-        double shapeReg = distAB * distAC * distBC / (4 * (p-distAB) * (p-distAC) * (p-distBC));
+        //return shape regularity
+        return distAB * distAC * distBC / (4 * (p-distAB) * (p-distAC) * (p-distBC));
 
-        return shapeReg;
     }
 
     public static double perimeter(PdVector a, PdVector b, PdVector c) {
