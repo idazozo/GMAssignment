@@ -7,4 +7,5 @@ import jv.project.PgJvxSrc;
  */
 public interface ModelAnalysis<T extends Number> {
     T[] getStatistics(PgJvxSrc model);
+    String getName();
 }

@@ -17,4 +17,10 @@ public class ShapeRegularity extends TriangleAnalysis<Double> {
         //return shape regularity
         return distAB * distAC * distBC / (4 * (p-distAB) * (p-distAC) * (p-distBC));
     }
+
+    @Override
+    public String getName()
+    {
+        return "Shape Regularities";
+    }
 }
