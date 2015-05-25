@@ -13,7 +13,7 @@ import java.util.Map;
 public abstract class TriangleAnalysis<T extends Number> implements ModelAnalysis<T> {
 
     @Override
-    public Map<Integer, T> getStatistics(PgJvxSrc model)
+    public Statisticts<T> getStatistics(PgJvxSrc model)
     {
         PiVector[] triangles = getTriangles(model);
         Map<Integer, T> statistics = new HashMap<Integer, T>(triangles.length);
@@ -24,7 +24,7 @@ public abstract class TriangleAnalysis<T extends Number> implements ModelAnalysi
             if(triangle != null) statistics.put(i, analyzeTriangle(model, triangle.getEntry(0), triangle.getEntry(1), triangle.getEntry(2)));
         }
 
-        return statistics;
+        return new Statisticts<>(statistics);
     }
 
     public abstract T analyzeTriangle(PgJvxSrc model, int a, int b, int c);

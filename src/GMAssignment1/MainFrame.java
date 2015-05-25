@@ -1,6 +1,7 @@
 package GMAssignment1;
 
 import GMAssignment1.analysis.ModelAnalysis;
+import GMAssignment1.analysis.Perimeter;
 import GMAssignment1.analysis.ShapeRegularity;
 import GMAssignment1.analysis.TriangleAnalysis;
 import jv.geom.PgElementSet;
@@ -22,14 +23,13 @@ import java.util.Arrays;
 /**
  * Created by admin on 23/5/15.
  */
-public class MainFrame extends PsMainFrame implements ActionListener, ModelLoadedListener {
+public class MainFrame extends JFrame implements ActionListener, ModelLoadedListener {
 
     private JPanel buttonPanel;
     private JPanel statButtonPanel;
     private JButton loadFileButton;
 
     // statistic buttons
-    private JButton valancesButton;
     private JButton meshAnalysisButton;
 
     //private PvViewer viewer;
@@ -42,6 +42,7 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         setSize(400, 400); // Set size to the frame
         setLayout(new BorderLayout()); // Set the layout
         setLocationRelativeTo(null);  // Center the frame
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // setup loading ui part
         buttonPanel = new JPanel();
@@ -57,11 +58,9 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         statButtonPanel = new JPanel();
         statButtonPanel.setLayout(new GridLayout(6, 1));
 
-        valancesButton = new JButton("Valances");
-        statButtonPanel.add(valancesButton);
-
         List<ModelAnalysis> meshAnalyses = new LinkedList<>();
         meshAnalyses.add(new ShapeRegularity());
+        meshAnalyses.add(new Perimeter());
         meshAnalysisButton = new JButton("MeshAnalysis");
         meshAnalysisButton.addActionListener(new AnalysisButtonListener(meshAnalyses, this));
         statButtonPanel.add(meshAnalysisButton);
@@ -75,31 +74,6 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         add(display, BorderLayout.CENTER);
         setVisible(true);
         pack();
-    }
-
-    public void analyzeModel(PgJvxSrc model){
-        PiVector[] triangles = model.getElements();
-        double[] shapeRegularityArray = new double[triangles.length];
-        for (int j = 0; j < triangles.length;j++) {
-
-            PdVector[] triangleVertices = new PdVector[3];
-            for (int i = 0; i < triangles[j].m_data.length; i++) {
-                triangleVertices[i] = model.getVertex(triangles[j].m_data[i]);
-            }
-            shapeRegularityArray[j]= shapeRegularity(triangleVertices);
-        }
-        double[] statisticsArray = getStatistics(shapeRegularityArray);
-        System.out.println(Arrays.toString(statisticsArray));
-    }
-
-    public static double shapeRegularity(PdVector [] triangle){
-        double distAB = triangle[0].dist(triangle[1]);
-        double distAC = triangle[0].dist(triangle[2]);
-        double distBC = triangle[1].dist(triangle[2]);
-
-        double p = perimeter( triangle[0],  triangle[1],  triangle[2]) / 2;
-        //return shape regularity
-        return distAB * distAC * distBC / (4 * (p-distAB) * (p-distAC) * (p-distBC));
     }
 
     @Override
@@ -126,7 +100,6 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
 
         // Add the graph from the model
         geom.setJvx(model);
-        analyzeModel(model);
         display.addGeometry(geom);
         display.selectGeometry(geom);
 
@@ -134,41 +107,6 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         //viewer.getDisplay().addGeometry(geom);
         //viewer.getDisplay().selectGeometry(geom);
         pack();
-    }
-
-    public static double perimeter(PdVector a, PdVector b, PdVector c) {
-        double distAB = a.dist(b);
-        double distAC = a.dist(c);
-        double distBC = b.dist(c);
-
-        return distAB + distAC + distBC;
-    }
-
-    public double[] getStatistics(double[] array) {
-        double min = Double.MAX_VALUE;
-        double max = Double.MIN_VALUE;
-        double sum = 0;
-        double sumsq = 0;
-
-        for(int i = 0; i < array.length; i++){
-            if(array[i] < min) {
-                min = array[i];
-            }
-            if(array[i] > max) {
-                max = array[i];
-            }
-            sum += array[i];
-        }
-
-        double mean = sum / array.length;
-
-
-        for(int i = 0; i < array.length; i++){
-            sumsq += Math.pow(array[i] - mean, 2);
-        }
-        double std = Math.sqrt(sumsq / (array.length - 1));
-
-        return new double[]{mean, min, max, std};
     }
 
     public PgJvxSrc getModel() {
