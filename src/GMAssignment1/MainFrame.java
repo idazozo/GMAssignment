@@ -27,7 +27,13 @@ import java.util.Arrays;
 public class MainFrame extends PsMainFrame implements ActionListener, ModelLoadedListener {
 
     private JPanel buttonPanel;
+    private JPanel statButtonPanel;
     private JButton loadFileButton;
+
+    // statistic buttons
+    private JButton valancesButton;
+    private JButton meshAnalysisButton;
+
     //private PvViewer viewer;
     private PvDisplay display;
 
@@ -47,6 +53,18 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         buttonPanel.add(loadFileButton);
 
         add(buttonPanel, BorderLayout.NORTH);
+
+        // setup stat button
+        statButtonPanel = new JPanel();
+        statButtonPanel.setLayout(new GridLayout(6, 1));
+
+        valancesButton = new JButton("Valances");
+        statButtonPanel.add(valancesButton);
+
+        meshAnalysisButton = new JButton("MeshAnalysis");
+        statButtonPanel.add(meshAnalysisButton);
+
+        add(statButtonPanel, BorderLayout.WEST);
 
         // setup display
         //viewer = new PvViewer(null, this);
