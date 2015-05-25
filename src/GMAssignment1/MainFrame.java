@@ -74,20 +74,21 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         setVisible(true);
         pack();
     }
-public void analyzeModel(PgJvxSrc model){
-    PiVector[] triangles = model.getElements();
-    double[] shapeRegularityArray = new double[triangles.length];
-    for (int j = 0; j < triangles.length;j++) {
 
-        PdVector[] triangleVertices = new PdVector[3];
-        for (int i = 0; i < triangles[j].m_data.length; i++) {
-            triangleVertices[i] = model.getVertex(triangles[j].m_data[i]);
+    public void analyzeModel(PgJvxSrc model){
+        PiVector[] triangles = model.getElements();
+        double[] shapeRegularityArray = new double[triangles.length];
+        for (int j = 0; j < triangles.length;j++) {
+
+            PdVector[] triangleVertices = new PdVector[3];
+            for (int i = 0; i < triangles[j].m_data.length; i++) {
+                triangleVertices[i] = model.getVertex(triangles[j].m_data[i]);
+            }
+            shapeRegularityArray[j]= shapeRegularity(triangleVertices);
         }
-        shapeRegularityArray[j]= shapeRegularity(triangleVertices);
+        double[] statisticsArray = getStatistics(shapeRegularityArray);
+        System.out.println(Arrays.toString(statisticsArray));
     }
-    double[] statisticsArray = getStatistics(shapeRegularityArray);
-    System.out.println(Arrays.toString(statisticsArray));
-}
 //        public void analyzeModel(PgJvxSrc model){
 //        PiVector[] polygons = model.getElements();
 //
@@ -168,7 +169,7 @@ public void analyzeModel(PgJvxSrc model){
 
         // Add the graph from the model
         geom.setJvx(model);
-       analyzeModel(model);
+        analyzeModel(model);
         display.addGeometry(geom);
         display.selectGeometry(geom);
 
