@@ -24,7 +24,7 @@ public class LoadModelFrame extends JFrame implements ActionListener {
         setLocationRelativeTo(null);  // Center the frame
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Close the program when the frame is closed
 
-        fileNameField = new JTextField("FileName");
+        fileNameField = new JTextField("/Users/bluepig/Documents/models/rabbit.obj");
         fileLoadButton = new JButton("LoadModel");
         fileLoadButton.addActionListener(this);
 

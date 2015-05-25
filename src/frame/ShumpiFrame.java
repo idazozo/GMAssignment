@@ -34,13 +34,13 @@ public class ShumpiFrame extends JFrame {
 
         // Create buttons
         addChildButton = new JButton("Add"); // Create a button with default constructor
-        addChildButton.addActionListener(new AddChildListener(this));
+//        addChildButton.addActionListener(new AddChildListener(this));
 
         newNameField = new JTextField("New Child Window Name");
         newNameField.setSize(200, newNameField.getHeight());
 
         killChildrenButton = new JButton("Close children"); // Create a button with sample text
-        killChildrenButton.addActionListener(new KillChildrenListener(this));
+//        killChildrenButton.addActionListener(new KillChildrenListener(this));
 
         // Add the buttons to the panel
         panel.add(addChildButton);
