@@ -93,6 +93,24 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         double[] statisticsArray = getStatistics(shapeRegularityArray);
         System.out.println(Arrays.toString(statisticsArray));
     }
+    //Surface Analysis
+    public int getGenus(PgElementSet geom){
+        int faceCount, edgeCount, verticesCount, genusCount;
+        faceCount = geom.getElements().length;
+        verticesCount = geom.getVertices().length;
+        edgeCount = geom.getNumEdges();
+        genusCount = (2-verticesCount+edgeCount-faceCount) / 2;
+        return genusCount;
+
+    }
+
+    public double getArea(PgElementSet geom){
+        return geom.getArea();
+    }
+
+    public
+
+    //Mesh Analysis
     public ArrayList<Double> getEdgeLengths(PgElementSet geom){
         PiVector[] triangles = geom.getElements();
         ArrayList<Double> tempEdges = new ArrayList<Double>();
