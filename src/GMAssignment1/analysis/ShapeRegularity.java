@@ -7,17 +7,13 @@ import jv.project.PgJvxSrc;
  */
 public class ShapeRegularity extends TriangleAnalysis<Double> {
 
-    public ShapeRegularity(PgJvxSrc model) {
-        super(model);
-    }
-
     @Override
-    public Double analyzeTriangle(int a, int b, int c) {
-        double distAB = getModel().getVertex(a).dist(getModel().getVertex(b));
-        double distAC = getModel().getVertex(a).dist(getModel().getVertex(c));
-        double distBC = getModel().getVertex(b).dist(getModel().getVertex(c));
+    public Double analyzeTriangle(PgJvxSrc model, int a, int b, int c) {
+        double distAB = model.getVertex(a).dist(model.getVertex(b));
+        double distAC = model.getVertex(a).dist(model.getVertex(c));
+        double distBC = model.getVertex(b).dist(model.getVertex(c));
 
-        double p = perimeter(a, b, c) / 2;
+        double p = perimeter(model, a, b, c) / 2;
         //return shape regularity
         return distAB * distAC * distBC / (4 * (p-distAB) * (p-distAC) * (p-distBC));
     }

@@ -1,5 +1,6 @@
 package GMAssignment1;
 
+import GMAssignment1.analysis.ShapeRegularity;
 import jv.geom.PgElementSet;
 import jv.geom.PgPointSet;
 import jv.object.PsMainFrame;
@@ -33,9 +34,11 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
     // statistic buttons
     private JButton valancesButton;
     private JButton meshAnalysisButton;
+    private JButton shapeRegularitiesButton;
 
     //private PvViewer viewer;
     private PvDisplay display;
+    private PgJvxSrc model;
 
     public MainFrame()
     {
@@ -63,6 +66,11 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
 
         meshAnalysisButton = new JButton("MeshAnalysis");
         statButtonPanel.add(meshAnalysisButton);
+
+        shapeRegularitiesButton = new JButton("Shape regularities");
+        shapeRegularitiesButton.addActionListener(new AnalysisButtonListener<Double>(new ShapeRegularity(), this));
+        statButtonPanel.add(shapeRegularitiesButton);
+
 
         add(statButtonPanel, BorderLayout.WEST);
 
@@ -113,6 +121,7 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
     public void modelLoaded(ModelLoadedEvent e)
     {
         PgJvxSrc model = e.getModels()[0];
+        setModel(model);
         PgPointSet geom = new PgElementSet();
         Color[] colors = IntStream
                 .rangeClosed(0, model.getElements().length)
@@ -166,6 +175,14 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         double std = Math.sqrt(sumsq / (array.length - 1));
 
         return new double[]{mean, min, max, std};
+    }
+
+    public PgJvxSrc getModel() {
+        return model;
+    }
+
+    public void setModel(PgJvxSrc model) {
+        this.model = model;
     }
 }
 

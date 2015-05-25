@@ -1,5 +1,6 @@
 package GMAssignment1.analysis;
 
+import jv.geom.PgPointSet;
 import jv.project.PgJvxSrc;
 import jv.vecmath.PdVector;
 import jv.vecmath.PiVector;
@@ -9,38 +10,28 @@ import jv.vecmath.PiVector;
  */
 public abstract class TriangleAnalysis<T extends Number> implements ModelAnalysis<T> {
 
-    private PgJvxSrc model;
-
-    public TriangleAnalysis(PgJvxSrc model) {
-        this.model = model;
-    }
-
-    public PgJvxSrc getModel() {
-        return model;
-    }
-
     @Override
-    public T[] getStatistics()
+    public T[] getStatistics(PgJvxSrc model)
     {
-        PiVector[] triangles = getTriangles();
+        PiVector[] triangles = getTriangles(model);
         T[] statistics = (T[])new Object[triangles.length];
 
         for(int i = 0; i<triangles.length; i++)
         {
             PiVector triangle = triangles[i];
-            if(triangle != null) statistics[i] = analyzeTriangle(triangle.getEntry(0), triangle.getEntry(1), triangle.getEntry(2));
+            if(triangle != null) statistics[i] = analyzeTriangle(model, triangle.getEntry(0), triangle.getEntry(1), triangle.getEntry(2));
         }
 
         return statistics;
     }
 
-    public abstract T analyzeTriangle(int a, int b, int c);
+    public abstract T analyzeTriangle(PgJvxSrc model, int a, int b, int c);
 
-    public double perimeter(int a, int b, int c)
+    public double perimeter(PgJvxSrc model, int a, int b, int c)
     {
-        PdVector vertexA = getModel().getVertex(a);
-        PdVector vertexB = getModel().getVertex(b);
-        PdVector vertexC = getModel().getVertex(c);
+        PdVector vertexA = model.getVertex(a);
+        PdVector vertexB = model.getVertex(b);
+        PdVector vertexC = model.getVertex(c);
 
         return perimeter(vertexA, vertexB, vertexC);
     }
@@ -53,7 +44,7 @@ public abstract class TriangleAnalysis<T extends Number> implements ModelAnalysi
         return distAB + distAC + distBC;
     }
 
-    public PiVector[] getTriangles()
+    public PiVector[] getTriangles(PgJvxSrc model)
     {
         PiVector[] elements = model.getElements();
         PiVector[] triangles = new PiVector[elements.length];
