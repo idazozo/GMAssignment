@@ -100,7 +100,19 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         }
         return valenceArray;
     }
-
+    public void setColors(double[] srArray, PgElementSet geom){
+        Color[] colors = new Color[srArray.length];
+        double[] statistics = getStatistics(srArray);
+        double min = statistics[0];
+        double max = statistics[1];
+        double[] newSRArray = new double[srArray.length];
+        for (int i=0;i<srArray.length;i++){
+            newSRArray[i] = (srArray[i] - min) / (max - min);
+            colors[i] = Color.getHSBColor(1.0f, (float)newSRArray[i], 1.0f);
+        }
+        geom.setElementColors(colors);
+        geom.showElementColors(true);
+    }
     public double[][] getAngles(PgElementSet geom){
         PiVector[] triangles = geom.getElements();
         double[][] angleArray= new double[triangles.length][3];
@@ -188,7 +200,7 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         }
         double std = Math.sqrt(sumsq / (array.length - 1));
 
-        return new double[]{mean, min, max, std};
+        return new double[]{min, max, mean, std};
     }
 
     public PgJvxSrc getModel() {
