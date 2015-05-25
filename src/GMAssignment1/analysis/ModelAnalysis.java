@@ -2,10 +2,12 @@ package GMAssignment1.analysis;
 
 import jv.project.PgJvxSrc;
 
+import java.util.Map;
+
 /**
  * Created by admin on 25/5/15.
  */
 public interface ModelAnalysis<T extends Number> {
-    T[] getStatistics(PgJvxSrc model);
+    Map<Integer, T> getStatistics(PgJvxSrc model);
     String getName();
 }

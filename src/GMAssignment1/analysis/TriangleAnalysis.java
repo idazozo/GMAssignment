@@ -1,9 +1,11 @@
 package GMAssignment1.analysis;
 
-import jv.geom.PgPointSet;
 import jv.project.PgJvxSrc;
 import jv.vecmath.PdVector;
 import jv.vecmath.PiVector;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by admin on 25/5/15.
@@ -11,15 +13,15 @@ import jv.vecmath.PiVector;
 public abstract class TriangleAnalysis<T extends Number> implements ModelAnalysis<T> {
 
     @Override
-    public T[] getStatistics(PgJvxSrc model)
+    public Map<Integer, T> getStatistics(PgJvxSrc model)
     {
         PiVector[] triangles = getTriangles(model);
-        T[] statistics = (T[])new Object[triangles.length];
+        Map<Integer, T> statistics = new HashMap<Integer, T>(triangles.length);
 
         for(int i = 0; i<triangles.length; i++)
         {
             PiVector triangle = triangles[i];
-            if(triangle != null) statistics[i] = analyzeTriangle(model, triangle.getEntry(0), triangle.getEntry(1), triangle.getEntry(2));
+            if(triangle != null) statistics.put(i, analyzeTriangle(model, triangle.getEntry(0), triangle.getEntry(1), triangle.getEntry(2)));
         }
 
         return statistics;
@@ -51,7 +53,7 @@ public abstract class TriangleAnalysis<T extends Number> implements ModelAnalysi
 
         for( int i = 0; i < elements.length; i++)
         {
-            if(elements[i].length() == 3)
+            if(elements[i].getEntries().length == 3)
             {
                 triangles[i] = elements[i];
             }

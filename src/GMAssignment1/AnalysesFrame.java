@@ -1,6 +1,7 @@
 package GMAssignment1;
 
 import GMAssignment1.analysis.ModelAnalysis;
+import jv.project.PgJvxSrc;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,12 +12,14 @@ import java.util.List;
  */
 public class AnalysesFrame extends JFrame {
     private List<ModelAnalysis> analyses;
-    private List<JButton> analysesButtons;
+    private List<AnalysisButton> analysesButtons;
     private List<JButton> analysesPanel;
+
+    private JPanel mainPanel;
 
     private JPanel tabPanel;
 
-    public AnalysesFrame(List<ModelAnalysis> analyses) {
+    public AnalysesFrame(List<ModelAnalysis> analyses, PgJvxSrc model) {
         this.analyses = analyses;
 
         // setup frame
@@ -29,11 +32,26 @@ public class AnalysesFrame extends JFrame {
 
         for (ModelAnalysis<Number> analysis : analyses)
         {
-            JButton button = new JButton(analysis.getName());
+            AnalysisButton button = new AnalysisButton(analysis.getName(), new AnalysisPanel(analysis, model), this);
             tabPanel.add(button);
         }
 
+        mainPanel = new JPanel();
+
         add(tabPanel, BorderLayout.NORTH);
+        add(mainPanel, BorderLayout.CENTER);
+
         setVisible(true);
+    }
+
+    public void replaceCenter(Component component)
+    {
+        for(Component c : mainPanel.getComponents())
+        {
+            mainPanel.remove(c);
+        }
+
+        mainPanel.add(component);
+        repaint();
     }
 }

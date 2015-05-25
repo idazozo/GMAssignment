@@ -21,6 +21,6 @@ public class AnalysisButtonListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        new AnalysesFrame(analyses);
+        new AnalysesFrame(analyses, frame.getModel());
     }
 }
