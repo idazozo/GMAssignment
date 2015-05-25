@@ -89,52 +89,7 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         double[] statisticsArray = getStatistics(shapeRegularityArray);
         System.out.println(Arrays.toString(statisticsArray));
     }
-//        public void analyzeModel(PgJvxSrc model){
-//        PiVector[] polygons = model.getElements();
-//
-//        HashMap<Integer, PiVector> triangles = new HashMap<Integer, PiVector>(polygons.length);
-//
-//        for(int i = 0; i < polygons.length; i++)
-//        {
-//            if(polygons[i].length() == 3)
-//            {
-//                triangles.put(i, polygons[i]);
-//            }
-//        }
-//
-//        Map<Integer, Double> shapeRegularities = triangles
-//            .entrySet()
-//            .stream()
-//            .map(entry -> {
-//                PiVector t = entry.getValue();
-//                PdVector a = model.getVertex(t.getEntry(0));
-//                PdVector b = model.getVertex(t.getEntry(1));
-//                PdVector c = model.getVertex(t.getEntry(2));
-//                return new HashMap.SimpleImmutableEntry<Integer, Double>(entry.getKey(), shapeRegularity(a, b, c));
-//            }).collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
-//
-//                        // calculate the smallest shape regularity
-//        Optional < Map.Entry<Integer, Double> > smallestRegularityIndex = shapeRegularities
-//                .entrySet()
-//                .stream()
-//                .min((a, b) -> a.getValue().compareTo(b.getValue()));
-//        smallestRegularityIndex.isPresent(); // is there any?
-//        //smallestRegularityIndex.get(); // the value, if it's present. Otherwise throws null pointer
-//        //smallestRegularityIndex.get().getKey(); // the index in triangles if it exists. use triangles.get(i)
-//
-//        Map<Integer, Integer> valences = IntStream.rangeClosed(0, model.getVertices().length)
-//                .mapToObj(us -> {
-//                    return new HashMap.SimpleImmutableEntry<Integer, Integer>(
-//                            us,
-//                            model.getNeighbours()[us].getSize());
-//                })
-//        .collect(Collectors.toMap(
-//                Map.Entry::getKey,
-//                Map.Entry::getValue));
-//
-//
-//        System.out.println(valences);
-//    }
+
     public static double shapeRegularity(PdVector [] triangle){
         double distAB = triangle[0].dist(triangle[1]);
         double distAC = triangle[0].dist(triangle[2]);
@@ -143,7 +98,6 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         double p = perimeter( triangle[0],  triangle[1],  triangle[2]) / 2;
         //return shape regularity
         return distAB * distAC * distBC / (4 * (p-distAB) * (p-distAC) * (p-distBC));
-
     }
 
     @Override
