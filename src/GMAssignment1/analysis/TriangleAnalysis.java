@@ -1,11 +1,8 @@
-package analysis;
+package GMAssignment1.analysis;
 
-import com.sun.media.sound.ModelTransform;
 import jv.project.PgJvxSrc;
 import jv.vecmath.PdVector;
 import jv.vecmath.PiVector;
-
-import java.util.Arrays;
 
 /**
  * Created by admin on 25/5/15.

@@ -1,6 +1,4 @@
-package analysis;
-
-import jv.project.PgJvxSrc;
+package GMAssignment1.analysis;
 
 /**
  * Created by admin on 25/5/15.

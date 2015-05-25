@@ -1,13 +1,12 @@
-package analysis;
+package GMAssignment1.analysis;
 
 import jv.project.PgJvxSrc;
-import jv.vecmath.PdVector;
 
 /**
  * Created by admin on 25/5/15.
  */
 public class ShapeRegularity extends TriangleAnalysis<Double> {
-    
+
     public ShapeRegularity(PgJvxSrc model) {
         super(model);
     }
