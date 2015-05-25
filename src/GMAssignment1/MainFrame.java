@@ -3,6 +3,7 @@ package GMAssignment1;
 import GMAssignment1.analysis.ModelAnalysis;
 import GMAssignment1.analysis.ShapeRegularity;
 import GMAssignment1.analysis.TriangleAnalysis;
+import jv.geom.PgEdgeStar;
 import jv.geom.PgElementSet;
 import jv.geom.PgPointSet;
 import jv.object.PsMainFrame;
@@ -15,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Arc2D;
 import java.util.*;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -91,6 +93,34 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         double[] statisticsArray = getStatistics(shapeRegularityArray);
         System.out.println(Arrays.toString(statisticsArray));
     }
+    public ArrayList<Double> getEdgeLengths(PgElementSet geom){
+        PiVector[] triangles = geom.getElements();
+        ArrayList<Double> tempEdges = new ArrayList<Double>();
+        for (int i =0;i<triangles.length;i++){
+            for (int j = 0; j<3; j++) {
+                tempEdges.add(getDistance(triangles[i], geom)[j]);
+            }
+
+        }
+        Collections.sort(tempEdges);
+        for (int j = 0; j<tempEdges.size();j++) if (j % 2 != 0) {
+            tempEdges.remove(j);
+        }
+        return  tempEdges;
+
+    }
+    public double[] getDistance(PiVector triangle, PgElementSet geom){
+        double dist1, dist2, dist3;
+        double[] triangleEdgeLengths = new double[3];
+        dist1 = geom.getVertex(triangle.getEntry(0)).dist(geom.getVertex(triangle.getEntry(1)));
+        dist2 = geom.getVertex(triangle.getEntry(0)).dist(geom.getVertex(triangle.getEntry(2)));
+        dist3 = geom.getVertex(triangle.getEntry(1)).dist(geom.getVertex(triangle.getEntry(2)));
+        triangleEdgeLengths[0] = dist1;
+        triangleEdgeLengths[1] = dist2;
+        triangleEdgeLengths[2] = dist3;
+        return triangleEdgeLengths;
+    }
+
     public double[] valences(PgElementSet geom){
 
         PiVector  valenceGeom = PgElementSet.getVertexValence(geom);
