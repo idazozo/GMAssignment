@@ -91,7 +91,27 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         double[] statisticsArray = getStatistics(shapeRegularityArray);
         System.out.println(Arrays.toString(statisticsArray));
     }
+    public double[] valences(PgElementSet geom){
 
+        PiVector  valenceGeom = PgElementSet.getVertexValence(geom);
+        double[] valenceArray = new double[valenceGeom.length()];
+        for (int i =0; i<valenceGeom.length(); i++){
+            valenceArray[i] = valenceGeom.getEntry(i);
+        }
+        return valenceArray;
+    }
+
+    public double[][] getAngles(PgElementSet geom){
+        PiVector[] triangles = geom.getElements();
+        double[][] angleArray= new double[triangles.length][3];
+
+        for (int i =0; i<triangles.length;i++){
+            for (int j = 0;j<triangles[i].m_data.length;j++)
+            angleArray[i][j] = geom.getVertexAngle(i,j);
+        }
+        return angleArray;
+
+    }
     public static double shapeRegularity(PdVector [] triangle){
         double distAB = triangle[0].dist(triangle[1]);
         double distAC = triangle[0].dist(triangle[2]);
