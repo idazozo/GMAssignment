@@ -5,6 +5,8 @@ import jv.vecmath.PdVector;
 import jv.vecmath.PiVector;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,10 +15,10 @@ import java.util.Map;
 public abstract class TriangleAnalysis<T extends Number> implements ModelAnalysis<T> {
 
     @Override
-    public Statisticts<T> getStatistics(PgJvxSrc model)
+    public Statistics<T> getStatistics(PgJvxSrc model)
     {
         PiVector[] triangles = getTriangles(model);
-        Map<Integer, T> statistics = new HashMap<Integer, T>(triangles.length);
+        Map<Integer, List<T>> statistics = new HashMap<Integer, List<T>>(triangles.length);
 
         for(int i = 0; i<triangles.length; i++)
         {
@@ -24,10 +26,10 @@ public abstract class TriangleAnalysis<T extends Number> implements ModelAnalysi
             if(triangle != null) statistics.put(i, analyzeTriangle(model, triangle.getEntry(0), triangle.getEntry(1), triangle.getEntry(2)));
         }
 
-        return new Statisticts<>(statistics);
+        return new Statistics<>(statistics);
     }
 
-    public abstract T analyzeTriangle(PgJvxSrc model, int a, int b, int c);
+    public abstract List<T> analyzeTriangle(PgJvxSrc model, int a, int b, int c);
 
     public double perimeter(PgJvxSrc model, int a, int b, int c)
     {
