@@ -1,6 +1,8 @@
 package GMAssignment1;
 
+import GMAssignment1.analysis.ModelAnalysis;
 import GMAssignment1.analysis.ShapeRegularity;
+import GMAssignment1.analysis.TriangleAnalysis;
 import jv.geom.PgElementSet;
 import jv.geom.PgPointSet;
 import jv.object.PsMainFrame;
@@ -8,18 +10,13 @@ import jv.project.PgJvxSrc;
 import jv.vecmath.PdVector;
 import jv.vecmath.PiVector;
 import jv.viewer.PvDisplay;
-import jv.viewer.PvViewer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Arc2D;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.List;
 import java.util.stream.IntStream;
 import java.util.Arrays;
 /**
@@ -34,7 +31,6 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
     // statistic buttons
     private JButton valancesButton;
     private JButton meshAnalysisButton;
-    private JButton shapeRegularitiesButton;
 
     //private PvViewer viewer;
     private PvDisplay display;
@@ -64,13 +60,11 @@ public class MainFrame extends PsMainFrame implements ActionListener, ModelLoade
         valancesButton = new JButton("Valances");
         statButtonPanel.add(valancesButton);
 
+        List<ModelAnalysis> meshAnalyses = new LinkedList<>();
+        meshAnalyses.add(new ShapeRegularity());
         meshAnalysisButton = new JButton("MeshAnalysis");
+        meshAnalysisButton.addActionListener(new AnalysisButtonListener(meshAnalyses, this));
         statButtonPanel.add(meshAnalysisButton);
-
-        shapeRegularitiesButton = new JButton("Shape regularities");
-        shapeRegularitiesButton.addActionListener(new AnalysisButtonListener<Double>(new ShapeRegularity(), this));
-        statButtonPanel.add(shapeRegularitiesButton);
-
 
         add(statButtonPanel, BorderLayout.WEST);
 
