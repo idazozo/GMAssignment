@@ -1,7 +1,6 @@
 package GMAssignment1;
 
 import GMAssignment1.analysis.ModelAnalysis;
-import GMAssignment1.analysis.Perimeter;
 import GMAssignment1.analysis.meshAnalysis.ShapeRegularity;
 import jv.geom.PgElementSet;
 import jv.geom.PgPointSet;
@@ -57,7 +56,6 @@ public class MainFrame extends JFrame implements ActionListener, ModelLoadedList
 
         List<ModelAnalysis> meshAnalyses = new LinkedList<>();
         meshAnalyses.add(new ShapeRegularity());
-        meshAnalyses.add(new Perimeter());
         meshAnalysisButton = new JButton("MeshAnalysis");
         meshAnalysisButton.addActionListener(new AnalysisButtonListener(meshAnalyses, this));
         statButtonPanel.add(meshAnalysisButton);
@@ -119,17 +117,6 @@ public class MainFrame extends JFrame implements ActionListener, ModelLoadedList
         }
         geom.setElementColors(colors);
         geom.showElementColors(true);
-    }
-    public double[][] getAngles(PgElementSet geom){
-        PiVector[] triangles = geom.getElements();
-        double[][] angleArray= new double[triangles.length][3];
-
-        for (int i =0; i<triangles.length;i++){
-            for (int j = 0;j<triangles[i].m_data.length;j++)
-            angleArray[i][j] = geom.getVertexAngle(i,j);
-        }
-        return angleArray;
-
     }
 
     @Override
