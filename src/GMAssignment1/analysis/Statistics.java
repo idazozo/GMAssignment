@@ -27,7 +27,7 @@ public class Statistics<T extends Number> {
 
         List<T> flatValues = flatValues();
         min = flatValues.stream().mapToDouble(n -> n.doubleValue()).min().orElseGet(() -> 0.0);
-        max = flatValues.stream().mapToDouble(n -> n.doubleValue()).min().orElseGet(() -> 0.0);
+        max = flatValues.stream().mapToDouble(n -> n.doubleValue()).max().orElseGet(() -> 0.0);
         mean = flatValues.stream().mapToDouble(n -> n.doubleValue()).average().orElseGet(() -> 0.0);
 
         standardDeviation = flatValues
@@ -35,19 +35,6 @@ public class Statistics<T extends Number> {
                 .mapToDouble(v -> Math.pow(v.doubleValue() - mean, 2))
                 .average().orElseGet(() -> 0);
     }
-
-    public void setColors(double[] srArray, PgElementSet geom){
-
-        Color[] colors = new Color[srArray.length];
-        double[] newSRArray = new double[srArray.length];
-        for (int i=0;i<srArray.length;i++){
-            newSRArray[i] = (srArray[i] - min) / (max - min);
-            colors[i] = Color.getHSBColor(1.0f, (float)newSRArray[i], 1.0f);
-        }
-        geom.setElementColors(colors);
-        geom.showElementColors(true);
-    }
-
 
     private List<T> flatValues()
     {
