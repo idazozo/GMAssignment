@@ -2,14 +2,10 @@ package GMAssignment1;
 
 import GMAssignment1.analysis.ModelAnalysis;
 import GMAssignment1.analysis.Perimeter;
-import GMAssignment1.analysis.ShapeRegularity;
-import GMAssignment1.analysis.TriangleAnalysis;
-import jv.geom.PgEdgeStar;
+import GMAssignment1.analysis.meshAnalysis.ShapeRegularity;
 import jv.geom.PgElementSet;
 import jv.geom.PgPointSet;
-import jv.object.PsMainFrame;
 import jv.project.PgJvxSrc;
-import jv.vecmath.PdVector;
 import jv.vecmath.PiVector;
 import jv.viewer.PvDisplay;
 
@@ -17,11 +13,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Arc2D;
 import java.util.*;
 import java.util.List;
 import java.util.stream.IntStream;
-import java.util.Arrays;
+
 /**
  * Created by admin on 23/5/15.
  */
@@ -110,17 +105,7 @@ public class MainFrame extends JFrame implements ActionListener, ModelLoadedList
         return  tempEdges;
 
     }
-    public double[] getDistance(PiVector triangle, PgElementSet geom){
-        double dist1, dist2, dist3;
-        double[] triangleEdgeLengths = new double[3];
-        dist1 = geom.getVertex(triangle.getEntry(0)).dist(geom.getVertex(triangle.getEntry(1)));
-        dist2 = geom.getVertex(triangle.getEntry(0)).dist(geom.getVertex(triangle.getEntry(2)));
-        dist3 = geom.getVertex(triangle.getEntry(1)).dist(geom.getVertex(triangle.getEntry(2)));
-        triangleEdgeLengths[0] = dist1;
-        triangleEdgeLengths[1] = dist2;
-        triangleEdgeLengths[2] = dist3;
-        return triangleEdgeLengths;
-    }
+
 
     public void setColors(double[] srArray, PgElementSet geom){
         Color[] colors = new Color[srArray.length];

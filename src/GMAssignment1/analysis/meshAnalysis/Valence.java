@@ -1,5 +1,7 @@
-package GMAssignment1.analysis;
+package GMAssignment1.analysis.meshAnalysis;
 
+import GMAssignment1.analysis.ModelAnalysis;
+import GMAssignment1.analysis.Statistics;
 import jv.geom.PgElementSet;
 import jv.project.PgJvxSrc;
 import jv.vecmath.PiVector;

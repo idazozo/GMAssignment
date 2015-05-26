@@ -1,5 +1,6 @@
-package GMAssignment1.analysis;
+package GMAssignment1.analysis.meshAnalysis;
 
+import GMAssignment1.analysis.TriangleAnalysis;
 import jv.geom.PgElementSet;
 import jv.project.PgJvxSrc;
 import jv.vecmath.PiVector;
