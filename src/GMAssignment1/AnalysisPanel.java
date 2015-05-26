@@ -1,6 +1,7 @@
 package GMAssignment1;
 
 import GMAssignment1.analysis.ModelAnalysis;
+import jv.geom.PgElementSet;
 import jv.project.PgJvxSrc;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import java.awt.*;
  */
 public class AnalysisPanel<T extends Number> extends JPanel {
     private ModelAnalysis<T> analysis;
-    private PgJvxSrc model;
+    private PgElementSet geom;
     private JPanel overviewPanel;
     private JLabel minKey;
     private JLabel minValue;
@@ -22,21 +23,21 @@ public class AnalysisPanel<T extends Number> extends JPanel {
     private JLabel standardDeviationKey;
     private JLabel standardDeviationValue;
 
-    public AnalysisPanel(ModelAnalysis<T> analysis, PgJvxSrc model) {
+    public AnalysisPanel(ModelAnalysis<T> analysis, PgElementSet geom) {
         this.analysis = analysis;
-        this.model = model;
+        this.geom = geom;
         setLayout(new BorderLayout());
 
         overviewPanel = new JPanel();
         overviewPanel.setLayout(new GridLayout(4, 1));
         minKey = new JLabel("Min:");
-        minValue = new JLabel("" + analysis.getStatistics(model).getMin());
+        minValue = new JLabel("" + analysis.getStatistics(geom).getMin());
         maxKey = new JLabel("Max:");
-        maxValue = new JLabel("" + analysis.getStatistics(model).getMax());
+        maxValue = new JLabel("" + analysis.getStatistics(geom).getMax());
         meanKey = new JLabel("\u03BC:");
-        meanValue = new JLabel("" + analysis.getStatistics(model).getMean());
+        meanValue = new JLabel("" + analysis.getStatistics(geom).getMean());
         standardDeviationKey = new JLabel("\u03C3^2");
-        standardDeviationValue = new JLabel("" + analysis.getStatistics(model).getStandardDeviation());
+        standardDeviationValue = new JLabel("" + analysis.getStatistics(geom).getStandardDeviation());
 
         overviewPanel.add(minKey);
         overviewPanel.add(minValue);

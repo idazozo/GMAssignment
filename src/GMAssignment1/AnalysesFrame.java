@@ -1,6 +1,7 @@
 package GMAssignment1;
 
 import GMAssignment1.analysis.ModelAnalysis;
+import jv.geom.PgElementSet;
 import jv.project.PgJvxSrc;
 
 import javax.swing.*;
@@ -29,10 +30,12 @@ public class AnalysesFrame extends JFrame {
         //setup tab buttons
         tabPanel = new JPanel();
         tabPanel.setLayout(new FlowLayout());
+        PgElementSet geom = new PgElementSet();
+        geom.setJvx(model);
 
         for (ModelAnalysis<Number> analysis : analyses)
         {
-            AnalysisButton button = new AnalysisButton(analysis.getName(), new AnalysisPanel(analysis, model), this);
+            AnalysisButton button = new AnalysisButton(analysis.getName(), new AnalysisPanel(analysis, geom), this);
             tabPanel.add(button);
         }
 

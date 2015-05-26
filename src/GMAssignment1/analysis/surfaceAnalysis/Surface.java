@@ -16,10 +16,7 @@ import java.util.Map;
 public class Surface implements ModelAnalysis<Double>{
 
     @Override
-    public Statistics<Double> getStatistics(PgJvxSrc model) {
-        PgElementSet geom = new PgElementSet();
-        geom.setJvx(model);
-
+    public Statistics<Double> getStatistics(PgElementSet geom) {
         Map<Integer, List<Double>> surface = new HashMap<>(1);
         List<Double> surfaceList = new LinkedList<>();
         surfaceList.add(geom.getArea());

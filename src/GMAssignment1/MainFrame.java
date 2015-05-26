@@ -1,7 +1,10 @@
 package GMAssignment1;
 
 import GMAssignment1.analysis.ModelAnalysis;
+import GMAssignment1.analysis.meshAnalysis.Angle;
+import GMAssignment1.analysis.meshAnalysis.EdgeLength;
 import GMAssignment1.analysis.meshAnalysis.ShapeRegularity;
+import GMAssignment1.analysis.meshAnalysis.Valence;
 import jv.geom.PgElementSet;
 import jv.geom.PgPointSet;
 import jv.project.PgJvxSrc;
@@ -55,8 +58,12 @@ public class MainFrame extends JFrame implements ActionListener, ModelLoadedList
         statButtonPanel.setLayout(new GridLayout(6, 1));
 
         List<ModelAnalysis> meshAnalyses = new LinkedList<>();
-        meshAnalyses.add(new ShapeRegularity());
+        //meshAnalyses.add(new ShapeRegularity());
+        //meshAnalyses.add(new Valence());
+        //meshAnalyses.add(new Angle());
+        meshAnalyses.add(new EdgeLength());
         meshAnalysisButton = new JButton("MeshAnalysis");
+
         meshAnalysisButton.addActionListener(new AnalysisButtonListener(meshAnalyses, this));
         statButtonPanel.add(meshAnalysisButton);
 
@@ -74,37 +81,21 @@ public class MainFrame extends JFrame implements ActionListener, ModelLoadedList
 
 
     //Mesh Analysis
-    public ArrayList<Double> getEdgeLengths(PgElementSet geom){
-        PiVector[] triangles = geom.getElements();
-        ArrayList<Double> tempEdges = new ArrayList<Double>();
-        for (int i =0;i<triangles.length;i++){
-            for (int j = 0; j<3; j++) {
-                tempEdges.add(getDistance(triangles[i], geom)[j]);
-            }
-
-        }
-        Collections.sort(tempEdges);
-        for (int j = 0; j<tempEdges.size();j++) if (j % 2 != 0) {
-            tempEdges.remove(j);
-        }
-        return  tempEdges;
-
-    }
-
-
-    public void setColors(double[] srArray, PgElementSet geom){
-        Color[] colors = new Color[srArray.length];
-        double[] statistics = getStatistics(srArray);
-        double min = statistics[0];
-        double max = statistics[1];
-        double[] newSRArray = new double[srArray.length];
-        for (int i=0;i<srArray.length;i++){
-            newSRArray[i] = (srArray[i] - min) / (max - min);
-            colors[i] = Color.getHSBColor(1.0f, (float)newSRArray[i], 1.0f);
-        }
-        geom.setElementColors(colors);
-        geom.showElementColors(true);
-    }
+//    public ArrayList<Double> getEdgeLengths(PgElementSet geom){
+//        PiVector[] triangles = geom.getElements();
+//        ArrayList<Double> tempEdges = new ArrayList<Double>();
+//        for (int i =0;i<triangles.length;i++){
+//            for (int j = 0; j<3; j++) {
+//                tempEdges.add(getDistance(triangles[i], geom)[j]);
+//            }
+//
+//        }
+//        Collections.sort(tempEdges);
+//        for (int j = 0; j<tempEdges.size();j++) if (j % 2 != 0) {
+//            tempEdges.remove(j);
+//        }
+//        return  tempEdges;
+//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

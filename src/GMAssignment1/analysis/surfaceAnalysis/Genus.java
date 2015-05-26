@@ -16,9 +16,7 @@ import java.util.Map;
 public class Genus implements ModelAnalysis<Integer>{
 
     @Override
-    public Statistics<Integer> getStatistics(PgJvxSrc model) {
-        PgElementSet geom = new PgElementSet();
-        geom.setJvx(model);
+    public Statistics<Integer> getStatistics(PgElementSet geom) {
 
         int faceCount, edgeCount, verticesCount, genusCount;
         faceCount = geom.getElements().length;

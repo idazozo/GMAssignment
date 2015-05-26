@@ -1,6 +1,7 @@
 package GMAssignment1.analysis.meshAnalysis;
 
 import GMAssignment1.analysis.TriangleAnalysis;
+import jv.geom.PgElementSet;
 import jv.project.PgJvxSrc;
 
 import java.util.LinkedList;
@@ -12,12 +13,12 @@ import java.util.List;
 public class ShapeRegularity extends TriangleAnalysis<Double> {
 
     @Override
-    public List<Double> analyzeTriangle(PgJvxSrc model, int a, int b, int c) {
-        double distAB = model.getVertex(a).dist(model.getVertex(b));
-        double distAC = model.getVertex(a).dist(model.getVertex(c));
-        double distBC = model.getVertex(b).dist(model.getVertex(c));
+    public List<Double> analyzeTriangle(PgElementSet geom, int a, int b, int c) {
+        double distAB = geom.getVertex(a).dist(geom.getVertex(b));
+        double distAC = geom.getVertex(a).dist(geom.getVertex(c));
+        double distBC = geom.getVertex(b).dist(geom.getVertex(c));
 
-        double p = perimeter(model, a, b, c) / 2;
+        double p = perimeter(geom, a, b, c) / 2;
         //return shape regularity
         List<Double> shapeRegularity = new LinkedList<>();
         shapeRegularity.add(distAB * distAC * distBC / (4 * (p-distAB) * (p-distAC) * (p-distBC)));

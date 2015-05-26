@@ -16,14 +16,13 @@ import java.util.List;
 public class Valence implements ModelAnalysis<Integer> {
 
     @Override
-    public Statistics<Integer> getStatistics(PgJvxSrc model){
-
-        int n = model.getVertices().length;
+    public Statistics<Integer> getStatistics(PgElementSet geom){
+        int n = geom.getVertices().length;
         HashMap<Integer, List<Integer>> valences = new HashMap<>(n);
 
         for (int i = 0; i < n; i++){
             List<Integer> valence = new LinkedList<>();
-            valence.add(model.getNeighbours()[i].getSize());
+            valence.add(geom.getNeighbours()[i].getSize());
             valences.put(i, valence);
         }
 

@@ -23,6 +23,7 @@ public class Statistics<T extends Number> {
     private double standardDeviation;
 
     public Statistics(Map<Integer, List<T>> values) {
+        this.values = values;
 
         List<T> flatValues = flatValues();
         min = flatValues.stream().mapToDouble(n -> n.doubleValue()).min().orElseGet(() -> 0.0);
