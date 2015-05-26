@@ -4,6 +4,7 @@ import GMAssignment1.analysis.ModelAnalysis;
 import GMAssignment1.analysis.Perimeter;
 import GMAssignment1.analysis.ShapeRegularity;
 import GMAssignment1.analysis.TriangleAnalysis;
+import jv.geom.PgEdgeStar;
 import jv.geom.PgElementSet;
 import jv.geom.PgPointSet;
 import jv.object.PsMainFrame;
@@ -16,6 +17,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Arc2D;
 import java.util.*;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -75,6 +77,75 @@ public class MainFrame extends JFrame implements ActionListener, ModelLoadedList
         setVisible(true);
         pack();
     }
+    
+    //Surface Analysis
+    public int getGenus(PgElementSet geom){
+        int faceCount, edgeCount, verticesCount, genusCount;
+        faceCount = geom.getElements().length;
+        verticesCount = geom.getVertices().length;
+        edgeCount = geom.getNumEdges();
+        genusCount = (2-verticesCount+edgeCount-faceCount) / 2;
+        return genusCount;
+
+    }
+
+    public double getArea(PgElementSet geom){
+        return geom.getArea();
+    }
+
+    //Mesh Analysis
+    public ArrayList<Double> getEdgeLengths(PgElementSet geom){
+        PiVector[] triangles = geom.getElements();
+        ArrayList<Double> tempEdges = new ArrayList<Double>();
+        for (int i =0;i<triangles.length;i++){
+            for (int j = 0; j<3; j++) {
+                tempEdges.add(getDistance(triangles[i], geom)[j]);
+            }
+
+        }
+        Collections.sort(tempEdges);
+        for (int j = 0; j<tempEdges.size();j++) if (j % 2 != 0) {
+            tempEdges.remove(j);
+        }
+        return  tempEdges;
+
+    }
+    public double[] getDistance(PiVector triangle, PgElementSet geom){
+        double dist1, dist2, dist3;
+        double[] triangleEdgeLengths = new double[3];
+        dist1 = geom.getVertex(triangle.getEntry(0)).dist(geom.getVertex(triangle.getEntry(1)));
+        dist2 = geom.getVertex(triangle.getEntry(0)).dist(geom.getVertex(triangle.getEntry(2)));
+        dist3 = geom.getVertex(triangle.getEntry(1)).dist(geom.getVertex(triangle.getEntry(2)));
+        triangleEdgeLengths[0] = dist1;
+        triangleEdgeLengths[1] = dist2;
+        triangleEdgeLengths[2] = dist3;
+        return triangleEdgeLengths;
+    }
+
+    public void setColors(double[] srArray, PgElementSet geom){
+        Color[] colors = new Color[srArray.length];
+        double[] statistics = getStatistics(srArray);
+        double min = statistics[0];
+        double max = statistics[1];
+        double[] newSRArray = new double[srArray.length];
+        for (int i=0;i<srArray.length;i++){
+            newSRArray[i] = (srArray[i] - min) / (max - min);
+            colors[i] = Color.getHSBColor(1.0f, (float)newSRArray[i], 1.0f);
+        }
+        geom.setElementColors(colors);
+        geom.showElementColors(true);
+    }
+    public double[][] getAngles(PgElementSet geom){
+        PiVector[] triangles = geom.getElements();
+        double[][] angleArray= new double[triangles.length][3];
+
+        for (int i =0; i<triangles.length;i++){
+            for (int j = 0;j<triangles[i].m_data.length;j++)
+            angleArray[i][j] = geom.getVertexAngle(i,j);
+        }
+        return angleArray;
+
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -107,6 +178,33 @@ public class MainFrame extends JFrame implements ActionListener, ModelLoadedList
         //viewer.getDisplay().addGeometry(geom);
         //viewer.getDisplay().selectGeometry(geom);
         pack();
+    }
+
+    public double[] getStatistics(double[] array) {
+        double min = Double.MAX_VALUE;
+        double max = Double.MIN_VALUE;
+        double sum = 0;
+        double sumsq = 0;
+
+        for(int i = 0; i < array.length; i++){
+            if(array[i] < min) {
+                min = array[i];
+            }
+            if(array[i] > max) {
+                max = array[i];
+            }
+            sum += array[i];
+        }
+
+        double mean = sum / array.length;
+
+
+        for(int i = 0; i < array.length; i++){
+            sumsq += Math.pow(array[i] - mean, 2);
+        }
+        double std = Math.sqrt(sumsq / (array.length - 1));
+
+        return new double[]{min, max, mean, std};
     }
 
     public PgJvxSrc getModel() {
