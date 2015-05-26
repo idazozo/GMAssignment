@@ -2,6 +2,7 @@ package GMAssignment1.analysis;
 
 import jv.project.PgJvxSrc;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -14,7 +15,11 @@ public class Perimeter extends TriangleAnalysis<Double> {
     }
 
     @Override
-    public double analyzeTriangle(PgJvxSrc model, int a, int b, int c) {
-        return perimeter(model, a, b, c);
+    public List<Double> analyzeTriangle(PgJvxSrc model, int a, int b, int c) {
+
+        List<Double> perimeter = new LinkedList<>();
+        perimeter.add(perimeter(model, a, b, c));
+
+        return perimeter;
     }
 }

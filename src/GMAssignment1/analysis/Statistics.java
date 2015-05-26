@@ -35,21 +35,16 @@ public class Statistics<T extends Number> {
                 .average().orElseGet(() -> 0);
     }
 
+    public void setColors(double[] srArray, PgElementSet geom){
 
-    public class SetColor {
-        public void setColors(double[] srArray, PgElementSet geom){
-            Color[] colors = new Color[srArray.length];
-            double[] statistics = getStatistics(srArray);
-            double min = statistics[0];
-            double max = statistics[1];
-            double[] newSRArray = new double[srArray.length];
-            for (int i=0;i<srArray.length;i++){
-                newSRArray[i] = (srArray[i] - min) / (max - min);
-                colors[i] = Color.getHSBColor(1.0f, (float)newSRArray[i], 1.0f);
-            }
-            geom.setElementColors(colors);
-            geom.showElementColors(true);
+        Color[] colors = new Color[srArray.length];
+        double[] newSRArray = new double[srArray.length];
+        for (int i=0;i<srArray.length;i++){
+            newSRArray[i] = (srArray[i] - min) / (max - min);
+            colors[i] = Color.getHSBColor(1.0f, (float)newSRArray[i], 1.0f);
         }
+        geom.setElementColors(colors);
+        geom.showElementColors(true);
     }
 
 
