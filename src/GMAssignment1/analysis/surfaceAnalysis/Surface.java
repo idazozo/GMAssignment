@@ -20,6 +20,7 @@ public class Surface implements ModelAnalysis<Double>{
         Map<Integer, List<Double>> surface = new HashMap<>(1);
         List<Double> surfaceList = new LinkedList<>();
         surfaceList.add(geom.getArea());
+        surface.put(0, surfaceList);
 
         return new Statistics<> (surface);
     }

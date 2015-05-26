@@ -6,6 +6,7 @@ import jv.project.PgJvxSrc;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -13,8 +14,8 @@ import java.util.List;
  */
 public class AnalysesFrame extends JFrame {
     private List<ModelAnalysis> analyses;
-    private List<AnalysisButton> analysesButtons;
-    private List<JButton> analysesPanel;
+
+    private List<AnalysisPanel> analysisPanels = new LinkedList<>();
 
     private JPanel mainPanel;
 
@@ -26,6 +27,8 @@ public class AnalysesFrame extends JFrame {
         // setup frame
         setLayout(new BorderLayout());
         setSize(300, 300);
+        mainPanel = new JPanel();
+        add(mainPanel, BorderLayout.CENTER);
 
         //setup tab buttons
         tabPanel = new JPanel();
@@ -35,14 +38,19 @@ public class AnalysesFrame extends JFrame {
 
         for (ModelAnalysis<Number> analysis : analyses)
         {
-            AnalysisButton button = new AnalysisButton(analysis.getName(), new AnalysisPanel(analysis, geom), this);
+            AnalysisPanel panel = new AnalysisPanel(analysis, geom);
+            AnalysisButton button = new AnalysisButton(analysis.getName(), panel, this);
+            analysisPanels.add(panel);
+
             tabPanel.add(button);
         }
 
-        mainPanel = new JPanel();
+        if(analysisPanels.size() > 0)
+        {
+            replaceCenter(analysisPanels.get(0));
+        }
 
         add(tabPanel, BorderLayout.NORTH);
-        add(mainPanel, BorderLayout.CENTER);
 
         setVisible(true);
     }
@@ -55,6 +63,8 @@ public class AnalysesFrame extends JFrame {
         }
 
         mainPanel.add(component);
+        mainPanel.repaint();
+        component.repaint();
         repaint();
     }
 }
