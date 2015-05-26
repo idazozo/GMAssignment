@@ -70,21 +70,8 @@ public class MainFrame extends JFrame implements ActionListener, ModelLoadedList
         setVisible(true);
         pack();
     }
-    
-    //Surface Analysis
-    public int getGenus(PgElementSet geom){
-        int faceCount, edgeCount, verticesCount, genusCount;
-        faceCount = geom.getElements().length;
-        verticesCount = geom.getVertices().length;
-        edgeCount = geom.getNumEdges();
-        genusCount = (2-verticesCount+edgeCount-faceCount) / 2;
-        return genusCount;
 
-    }
 
-    public double getArea(PgElementSet geom){
-        return geom.getArea();
-    }
 
     //Mesh Analysis
     public ArrayList<Double> getEdgeLengths(PgElementSet geom){
